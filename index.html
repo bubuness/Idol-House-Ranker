@@ -1,245 +1,416 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Idol House Ranker</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idol House Ranker</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #0b1f3a, #123a63, #2a6fa1);
-  color: white;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.header {
-  text-align: center;
-  padding: 30px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0b1f3a, #123a63, #2a6fa1);
+      color: white;
+    }
 
-.logo {
-  width: 120px;
-}
+    .header {
+      text-align: center;
+      padding: 28px 20px 16px;
+    }
 
-.lineup-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 15px 0;
-}
+    .logo {
+      width: 120px;
+      max-width: 40vw;
+      margin-bottom: 12px;
+      object-fit: contain;
+    }
 
-.lineup-buttons button {
-  background: rgba(255,255,255,0.2);
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-}
+    h1 {
+      margin: 0;
+      font-size: 38px;
+    }
 
-.lineup-buttons button.active {
-  background: #4db8ff;
-  color: #06253f;
-  font-weight: bold;
-}
+    .subtitle {
+      margin-top: 8px;
+      color: #d7ecff;
+      font-size: 16px;
+    }
 
-.container {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 20px;
-  padding: 20px;
-}
+    .lineup-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
 
-.panel {
-  background: rgba(255,255,255,0.08);
-  padding: 15px;
-  border-radius: 15px;
-}
+    .lineup-buttons button {
+      background: rgba(255,255,255,0.18);
+      border: none;
+      padding: 8px 13px;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
 
-.top-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    .lineup-buttons button:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.26);
+    }
 
-.slot {
-  background: rgba(255,255,255,0.1);
-  padding: 10px;
-  border-radius: 10px;
-}
+    .lineup-buttons button.active {
+      background: #58b8ff;
+      color: #06253f;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-}
+    .container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
 
-.card {
-  background: rgba(255,255,255,0.07);
-  padding: 10px;
-  border-radius: 15px;
-  text-align: center;
-  cursor: pointer;
-}
+    .panel {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 18px;
+    }
 
-.card:hover {
-  transform: scale(1.05);
-}
+    .panel h2 {
+      margin-top: 0;
+      color: #8fd3ff;
+      font-size: 24px;
+    }
 
-.card img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+    .top-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-button.action {
-  margin-top: 10px;
-  padding: 8px;
-  border: none;
-  border-radius: 10px;
-  background: #2196f3;
-  color: white;
-}
-</style>
+    .slot {
+      background: rgba(255,255,255,0.10);
+      padding: 12px;
+      border-radius: 14px;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+    }
+
+    .slot-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .slot-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #8fd3ff;
+      color: #08304f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .slot img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .slot-name {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .empty {
+      color: #d4e5f2;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .action-buttons button {
+      border: none;
+      border-radius: 12px;
+      background: #2fa7ff;
+      color: white;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .action-buttons button:hover {
+      opacity: 0.9;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 18px 12px;
+      border-radius: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .card.selected {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .card img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 14px;
+      border: 3px solid rgba(255,255,255,0.14);
+    }
+
+    .card-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-status {
+      font-size: 14px;
+      color: #d7ecff;
+    }
+
+    @media (max-width: 1100px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, minmax(160px, 1fr));
+      }
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        font-size: 30px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 14px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="header">
-  <img src="logo.png" class="logo">
-  <h1>Idol House Ranker</h1>
+  <div class="header">
+    <img src="logo.png" alt="Idol House Logo" class="logo">
+    <h1>Idol House Ranker</h1>
+    <div class="subtitle">Top seçimini oluştur.</div>
 
-  <div class="lineup-buttons" id="lineupButtons"></div>
-</div>
+    <div class="lineup-buttons" id="lineupButtons"></div>
+  </div>
 
-<div class="container">
+  <div class="container">
+    <div class="panel">
+      <h2 id="title">Top 5</h2>
+      <div id="topList" class="top-list"></div>
 
-<div class="panel">
-  <h2 id="title">Top 5</h2>
-  <div id="topList" class="top-list"></div>
+      <div class="action-buttons">
+        <button onclick="resetRanking()">Sıfırla</button>
+        <button onclick="removeLast()">Son seçimi kaldır</button>
+      </div>
+    </div>
 
-  <button class="action" onclick="resetRanking()">Sıfırla</button>
-  <button class="action" onclick="removeLast()">Son seçimi kaldır</button>
-</div>
+    <div class="panel">
+      <h2>Stajyerler</h2>
+      <div id="grid" class="grid"></div>
+    </div>
+  </div>
 
-<div class="panel">
-  <h2>Stajyerler</h2>
-  <div id="grid" class="grid"></div>
-</div>
+  <script>
+    let maxRank = 5;
 
-</div>
+    const trainees = [
+      {name:"Görkem", img:"gorkem.jpg"},
+      {name:"Kemal", img:"kemal.jpg"},
+      {name:"Ayberk", img:"ayberk.jpg"},
+      {name:"Civan", img:"civan.jpg"},
+      {name:"Arda Aykut", img:"ardaaykut.jpg"},
+      {name:"Miraç", img:"mirac.jpg"},
+      {name:"Umut", img:"umut.jpg"},
+      {name:"Ege", img:"ege.jpg"},
+      {name:"Bertuğ", img:"bertug.jpg"},
+      {name:"Oğuzhan", img:"oguzhan.jpg"},
+      {name:"Beytullah", img:"beytullah.jpg"},
+      {name:"Alperen", img:"alperen.jpg"},
+      {name:"Arda", img:"arda.jpg"},
+      {name:"Yusif", img:"yusif.jpg"},
+      {name:"Barış", img:"baris.jpg"},
+      {name:"Milan", img:"milan.jpg"},
+      {name:"Efe", img:"efe.jpg"},
+      {name:"Ahmet Emre", img:"ahmetemre.jpg"},
+      {name:"Batu", img:"batu.jpg"},
+      {name:"Akın", img:"akin.jpg"}
+    ];
 
-<script>
+    let ranking = [];
 
-let maxRank = 5;
+    function renderButtons() {
+      const container = document.getElementById("lineupButtons");
+      container.innerHTML = "";
 
-const trainees = [
-{name:"Görkem", img:"gorkem.jpg"},
-{name:"Kemal", img:"kemal.jpg"},
-{name:"Ayberk", img:"ayberk.jpg"},
-{name:"Civan", img:"civan.jpg"},
-{name:"Arda Aykut", img:"ardaaykut.jpg"},
-{name:"Miraç", img:"mirac.jpg"},
-{name:"Umut", img:"umut.jpg"},
-{name:"Ege", img:"ege.jpg"},
-{name:"Bertuğ", img:"bertug.jpg"},
-{name:"Oğuzhan", img:"oguzhan.jpg"},
-{name:"Beytullah", img:"beytullah.jpg"},
-{name:"Alperen", img:"alperen.jpg"},
-{name:"Arda", img:"arda.jpg"},
-{name:"Yusif", img:"yusif.jpg"},
-{name:"Barış", img:"baris.jpg"},
-{name:"Milan", img:"milan.jpg"},
-{name:"Efe", img:"efe.jpg"},
-{name:"Ahmet Emre", img:"ahmetemre.jpg"},
-{name:"Batu", img:"batu.jpg"},
-{name:"Akın", img:"akin.jpg"}
-];
+      for (let i = 5; i <= 9; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
 
-let ranking = [];
+        if (i === maxRank) {
+          btn.classList.add("active");
+        }
 
-function renderButtons() {
-  const container = document.getElementById("lineupButtons");
-  container.innerHTML = "";
+        btn.onclick = () => {
+          maxRank = i;
 
-  for (let i = 5; i <= 9; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = i;
+          if (ranking.length > maxRank) {
+            ranking = ranking.slice(0, maxRank);
+          }
 
-    if (i === maxRank) btn.classList.add("active");
+          renderAll();
+        };
 
-    btn.onclick = () => {
-      maxRank = i;
-      if (ranking.length > maxRank) {
-        ranking = ranking.slice(0, maxRank);
+        container.appendChild(btn);
       }
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+
+      trainees.forEach(t => {
+        const selected = ranking.find(x => x.name === t.name);
+
+        const div = document.createElement("div");
+        div.className = selected ? "card selected" : "card";
+
+        div.innerHTML = `
+          <img src="${t.img}" alt="${t.name}">
+          <div class="card-name">${t.name}</div>
+          <div class="card-status">${selected ? "Seçildi" : "Eklemek için tıkla"}</div>
+        `;
+
+        if (!selected) {
+          div.onclick = () => select(t);
+        }
+
+        grid.appendChild(div);
+      });
+    }
+
+    function select(t) {
+      if (ranking.length >= maxRank) return;
+      if (ranking.find(x => x.name === t.name)) return;
+
+      ranking.push(t);
       renderAll();
-    };
+    }
 
-    container.appendChild(btn);
-  }
-}
+    function updateTop() {
+      const list = document.getElementById("topList");
+      list.innerHTML = "";
 
-function renderGrid() {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
+      document.getElementById("title").textContent = `Top ${maxRank}`;
 
-  trainees.forEach(t => {
-    const div = document.createElement("div");
-    div.className = "card";
+      for (let i = 0; i < maxRank; i++) {
+        const div = document.createElement("div");
+        div.className = "slot";
 
-    div.innerHTML = `
-      <img src="${t.img}">
-      <p>${t.name}</p>
-    `;
+        if (ranking[i]) {
+          div.innerHTML = `
+            <div class="slot-left">
+              <div class="slot-number">${i + 1}</div>
+              <img src="${ranking[i].img}" alt="${ranking[i].name}">
+              <span class="slot-name">${ranking[i].name}</span>
+            </div>
+          `;
+        } else {
+          div.innerHTML = `
+            <div class="slot-left">
+              <div class="slot-number">${i + 1}</div>
+              <span class="slot-name empty">Boş</span>
+            </div>
+          `;
+        }
 
-    div.onclick = () => select(t);
-    grid.appendChild(div);
-  });
-}
+        list.appendChild(div);
+      }
+    }
 
-function select(t) {
-  if (ranking.length >= maxRank) return;
-  if (ranking.find(x => x.name === t.name)) return;
+    function resetRanking() {
+      ranking = [];
+      renderAll();
+    }
 
-  ranking.push(t);
-  updateTop();
-}
+    function removeLast() {
+      ranking.pop();
+      renderAll();
+    }
 
-function updateTop() {
-  const list = document.getElementById("topList");
-  list.innerHTML = "";
+    function renderAll() {
+      renderButtons();
+      renderGrid();
+      updateTop();
+    }
 
-  document.getElementById("title").textContent = `Top ${maxRank}`;
-
-  ranking.forEach((t, i) => {
-    const div = document.createElement("div");
-    div.className = "slot";
-    div.innerHTML = `${i+1}. ${t.name}`;
-    list.appendChild(div);
-  });
-}
-
-function resetRanking() {
-  ranking = [];
-  updateTop();
-}
-
-function removeLast() {
-  ranking.pop();
-  updateTop();
-}
-
-function renderAll() {
-  renderButtons();
-  renderGrid();
-  updateTop();
-}
-
-renderAll();
-
-</script>
+    renderAll();
+  </script>
 
 </body>
 </html>
