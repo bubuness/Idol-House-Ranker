@@ -6,123 +6,245 @@
 <title>Idol House Ranker</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#0b1f3a,#123a63,#2a6fa1);
-  color:white;
+* {
+  box-sizing: border-box;
 }
 
-.header{
-  text-align:center;
-  padding:30px 20px;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #071d36, #0f3f68, #2a79ad);
+  color: white;
 }
 
-.logo{
-  width:120px;
-  margin-bottom:10px;
+.header {
+  text-align: center;
+  padding: 32px 20px 24px;
 }
 
-h1{font-size:48px;margin:0;}
-.subtitle{color:#d7ecff;margin-top:10px;}
-
-.lineup-buttons{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:20px;
+.logo {
+  width: 120px;
+  max-width: 45vw;
+  margin-bottom: 12px;
 }
 
-.lineup-buttons button{
-  padding:10px 14px;
-  border:none;
-  border-radius:10px;
-  background:#4d6f95;
-  color:white;
-  cursor:pointer;
+h1 {
+  margin: 0;
+  font-size: 42px;
 }
 
-.lineup-buttons button.active{
-  background:#58b8ff;
-  color:#06253f;
+.subtitle {
+  margin-top: 8px;
+  color: #d7ecff;
+  font-size: 17px;
 }
 
-.container{
-  display:grid;
-  grid-template-columns:320px 1fr;
-  gap:20px;
-  padding:20px;
+.lineup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
 }
 
-.panel{
-  background:rgba(255,255,255,0.08);
-  padding:20px;
-  border-radius:18px;
+.lineup-buttons button,
+.action-buttons button {
+  border: none;
+  border-radius: 999px;
+  background: #57b8ff;
+  color: #082947;
+  padding: 11px 18px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+.lineup-buttons button {
+  background: rgba(255,255,255,0.22);
+  color: white;
+  padding: 9px 15px;
 }
 
-.card{
-  background:rgba(255,255,255,0.08);
-  border-radius:16px;
-  padding:16px;
-  text-align:center;
-  cursor:pointer;
+.lineup-buttons button.active {
+  background: #8fd3ff;
+  color: #082947;
 }
 
-.card img{
-  width:95px;
-  height:95px;
-  border-radius:50%;
-  object-fit:cover;
+.container {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 22px;
+  padding: 22px;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 
-.card.selected{
-  opacity:.45;
-  pointer-events:none;
+.panel {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 20px;
+  padding: 20px;
 }
 
-.slot{
-  background:rgba(255,255,255,0.08);
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:10px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+.panel h2 {
+  margin-top: 0;
+  color: #9bd8ff;
+  font-size: 28px;
 }
 
-.slot img{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  object-fit:cover;
+.top-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-button{
-  cursor:pointer;
+.slot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px;
+  min-height: 78px;
+}
+
+.slot-number {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #9bd8ff;
+  color: #092944;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.slot img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.slot-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.empty {
+  color: #d9ebf8;
+  opacity: 0.85;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.16);
+}
+
+.card.selected {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.card img {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 14px;
+  border: 3px solid rgba(255,255,255,0.20);
+}
+
+.card-name {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.card-status {
+  font-size: 15px;
+  color: #d7ecff;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
-  <img src="logo.png" class="logo">
+  <img src="logo.png" alt="Idol House Logo" class="logo">
   <h1>Idol House Ranker</h1>
   <div class="subtitle">Top seçimini oluştur.</div>
-  <div id="lineupButtons" class="lineup-buttons"></div>
+  <div class="lineup-buttons" id="lineupButtons"></div>
 </div>
 
 <div class="container">
   <div class="panel">
     <h2 id="title">Top 5</h2>
-    <div id="topList"></div>
-    <button onclick="resetRanking()">Sıfırla</button>
-    <button onclick="removeLast()">Son seçimi kaldır</button>
+    <div id="topList" class="top-list"></div>
+
+    <div class="action-buttons">
+      <button onclick="resetRanking()">Sıfırla</button>
+      <button onclick="removeLast()">Son seçimi kaldır</button>
+    </div>
   </div>
 
   <div class="panel">
@@ -136,113 +258,113 @@ let maxRank = 5;
 let ranking = [];
 
 const trainees = [
-{name:"Ahmet Emre", img:"ahmetemre.jpg"},
-{name:"Akın", img:"akin.jpg"},
-{name:"Alperen", img:"alperen.jpg"},
-{name:"Arda", img:"arda.jpg"},
-{name:"Arda Aykut", img:"ardaaykut.jpg"},
-{name:"Ayberk", img:"ayberk.jpg"},
-{name:"Barış", img:"baris.jpg"},
-{name:"Batu", img:"batu.jpg"},
-{name:"Bertuğ", img:"bertug.jpg"},
-{name:"Beytullah", img:"beytullah.jpg"},
-{name:"Civan", img:"civan.jpg"},
-{name:"Efe", img:"efe.jpg"},
-{name:"Ege", img:"ege.jpg"},
-{name:"Görkem", img:"gorkem.jpg"},
-{name:"Kemal", img:"kemal.jpg"},
-{name:"Milan", img:"milan.jpg"},
-{name:"Miraç", img:"mirac.jpg"},
-{name:"Oğuzhan", img:"oguzhan.jpg"},
-{name:"Umut Arda", img:"umutarda.jpg"},
-{name:"Yusif", img:"yusif.jpg"}
+  {name:"Ahmet Emre", img:"ahmetemre.jpg"},
+  {name:"Akın", img:"akin.jpg"},
+  {name:"Alperen", img:"alperen.jpg"},
+  {name:"Arda", img:"arda.jpg"},
+  {name:"Arda Aykut", img:"ardaaykut.jpg"},
+  {name:"Ayberk", img:"ayberk.jpg"},
+  {name:"Barış", img:"baris.jpg"},
+  {name:"Batu", img:"batu.jpg"},
+  {name:"Beytullah", img:"beytullah.jpg"},
+  {name:"Civan", img:"civan.jpg"},
+  {name:"Efe", img:"efe.jpg"},
+  {name:"Görkem", img:"gorkem.jpg"},
+  {name:"Kemal", img:"kemal.jpg"},
+  {name:"Milan", img:"milan.jpg"},
+  {name:"Miraç", img:"mirac.jpg"},
+  {name:"Oğuzhan", img:"oguzhan.jpg"},
+  {name:"Umut Arda", img:"umutarda.jpg"},
+  {name:"Yusif", img:"yusif.jpg"},
+  {name:"Ege", img:"ege.jpg"},
+  {name:"Bertuğ", img:"bertug.jpg"}
 ];
 
-function renderButtons(){
-  const box=document.getElementById("lineupButtons");
-  box.innerHTML="";
+function renderButtons() {
+  const container = document.getElementById("lineupButtons");
+  container.innerHTML = "";
 
-  for(let i=5;i<=9;i++){
-    const btn=document.createElement("button");
-    btn.textContent=i;
-    if(i===maxRank) btn.classList.add("active");
+  for (let i = 5; i <= 9; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
 
-    btn.onclick=()=>{
-      maxRank=i;
-      if(ranking.length>maxRank){
-        ranking=ranking.slice(0,maxRank);
-      }
+    if (i === maxRank) btn.classList.add("active");
+
+    btn.onclick = () => {
+      maxRank = i;
+      if (ranking.length > maxRank) ranking = ranking.slice(0, maxRank);
       renderAll();
     };
 
-    box.appendChild(btn);
+    container.appendChild(btn);
   }
 }
 
-function renderGrid(){
-  const grid=document.getElementById("grid");
-  grid.innerHTML="";
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
 
-  trainees.forEach(t=>{
-    const selected=ranking.find(x=>x.name===t.name);
+  trainees.forEach(t => {
+    const selected = ranking.find(x => x.name === t.name);
+    const card = document.createElement("div");
+    card.className = selected ? "card selected" : "card";
 
-    const card=document.createElement("div");
-    card.className=selected?"card selected":"card";
-
-    card.innerHTML=`
-      <img src="${t.img}" onerror="this.src='logo.png'">
-      <h3>${t.name}</h3>
-      <p>${selected ? "Seçildi" : "Eklemek için tıkla"}</p>
+    card.innerHTML = `
+      <img src="${t.img}" alt="${t.name}" onerror="this.src='logo.png'">
+      <div class="card-name">${t.name}</div>
+      <div class="card-status">${selected ? "Seçildi" : "Eklemek için tıkla"}</div>
     `;
 
-    if(!selected){
-      card.onclick=()=>selectTrainee(t);
-    }
-
+    if (!selected) card.onclick = () => selectTrainee(t);
     grid.appendChild(card);
   });
 }
 
-function selectTrainee(t){
-  if(ranking.length>=maxRank) return;
+function selectTrainee(t) {
+  if (ranking.length >= maxRank) return;
+  if (ranking.find(x => x.name === t.name)) return;
+
   ranking.push(t);
   renderAll();
 }
 
-function updateTop(){
-  const top=document.getElementById("topList");
-  top.innerHTML="";
-  document.getElementById("title").textContent=`Top ${maxRank}`;
+function updateTop() {
+  const topList = document.getElementById("topList");
+  topList.innerHTML = "";
+  document.getElementById("title").textContent = `Top ${maxRank}`;
 
-  for(let i=0;i<maxRank;i++){
-    const slot=document.createElement("div");
-    slot.className="slot";
+  for (let i = 0; i < maxRank; i++) {
+    const slot = document.createElement("div");
+    slot.className = "slot";
 
-    if(ranking[i]){
-      slot.innerHTML=`
-        <strong>${i+1}</strong>
-        <img src="${ranking[i].img}">
-        <span>${ranking[i].name}</span>
+    if (ranking[i]) {
+      slot.innerHTML = `
+        <div class="slot-number">${i + 1}</div>
+        <img src="${ranking[i].img}" alt="${ranking[i].name}" onerror="this.src='logo.png'">
+        <span class="slot-name">${ranking[i].name}</span>
       `;
     } else {
-      slot.innerHTML=`<strong>${i+1}</strong> Boş`;
+      slot.innerHTML = `
+        <div class="slot-number">${i + 1}</div>
+        <span class="slot-name empty">Boş</span>
+      `;
     }
 
-    top.appendChild(slot);
+    topList.appendChild(slot);
   }
 }
 
-function resetRanking(){
-  ranking=[];
+function resetRanking() {
+  ranking = [];
   renderAll();
 }
 
-function removeLast(){
+function removeLast() {
   ranking.pop();
   renderAll();
 }
 
-function renderAll(){
+function renderAll() {
   renderButtons();
   renderGrid();
   updateTop();
