@@ -163,10 +163,6 @@
       font-weight: bold;
     }
 
-    .action-buttons button:hover {
-      opacity: 0.9;
-    }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(170px, 1fr));
@@ -217,200 +213,159 @@
       font-size: 14px;
       color: #d7ecff;
     }
-
-    @media (max-width: 1100px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-
-      .grid {
-        grid-template-columns: repeat(3, minmax(160px, 1fr));
-      }
-    }
-
-    @media (max-width: 800px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-      }
-    }
-
-    @media (max-width: 520px) {
-      h1 {
-        font-size: 30px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .container {
-        padding: 14px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <img src="logo.png" alt="Idol House Logo" class="logo">
-    <h1>Idol House Ranker</h1>
-    <div class="subtitle">Top seçimini oluştur.</div>
+<div class="header">
+  <img src="logo.png" alt="Idol House Logo" class="logo">
+  <h1>Idol House Ranker</h1>
+  <div class="subtitle">Top seçimini oluştur.</div>
+  <div class="lineup-buttons" id="lineupButtons"></div>
+</div>
 
-    <div class="lineup-buttons" id="lineupButtons"></div>
-  </div>
+<div class="container">
+  <div class="panel">
+    <h2 id="title">Top 5</h2>
+    <div id="topList" class="top-list"></div>
 
-  <div class="container">
-    <div class="panel">
-      <h2 id="title">Top 5</h2>
-      <div id="topList" class="top-list"></div>
-
-      <div class="action-buttons">
-        <button onclick="resetRanking()">Sıfırla</button>
-        <button onclick="removeLast()">Son seçimi kaldır</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h2>Stajyerler</h2>
-      <div id="grid" class="grid"></div>
+    <div class="action-buttons">
+      <button onclick="resetRanking()">Sıfırla</button>
+      <button onclick="removeLast()">Son seçimi kaldır</button>
     </div>
   </div>
 
-  <script>
-    let maxRank = 5;
+  <div class="panel">
+    <h2>Stajyerler</h2>
+    <div id="grid" class="grid"></div>
+  </div>
+</div>
 
-    const trainees = [
-{name:"Ahmet Emre", img:"ahmetemre.jpg"},
-{name:"Akın", img:"akin.jpg"},
-{name:"Alperen", img:"alperen.jpg"},
-{name:"Arda", img:"arda.jpg"},
-{name:"Arda Aykut", img:"ardaaykut.jpg"},
-{name:"Ayberk", img:"ayberk.jpg"},
-{name:"Barış", img:"baris.jpg"},
-{name:"Batu", img:"batu.jpg"},
-{name:"Beytullah", img:"beytullah.jpg"},
-{name:"Civan", img:"civan.jpg"},
-{name:"Efe", img:"efe.jpg"},
-{name:"Görkem", img:"gorkem.jpg"},
-{name:"Kemal", img:"kemal.jpg"},
-{name:"Milan", img:"milan.jpg"},
-{name:"Miraç", img:"mirac.jpg"},
-{name:"Oğuzhan", img:"oguzhan.jpg"},
-{name:"Umut Arda", img:"umutarda.jpg"},
-{name:"Yusif", img:"yusif.jpg"},
-{name:"Ege", img:"ege.jpg"},
-{name:"Bertuğ", img:"bertug.jpg"}
-    ];
+<script>
+let maxRank = 5;
 
-    let ranking = [];
+const trainees = [
+  {name:"Ahmet Emre", img:"ahmetemre.jpg"},
+  {name:"Akın", img:"akin.jpg"},
+  {name:"Alperen", img:"alperen.jpg"},
+  {name:"Arda", img:"arda.jpg"},
+  {name:"Arda Aykut", img:"ardaaykut.jpg"},
+  {name:"Ayberk", img:"ayberk.jpg"},
+  {name:"Barış", img:"baris.jpg"},
+  {name:"Batu", img:"batu.jpg"},
+  {name:"Bertuğ", img:"bertug.jpg"},
+  {name:"Beytullah", img:"beytullah.jpg"},
+  {name:"Civan", img:"civan.jpg"},
+  {name:"Efe", img:"efe.jpg"},
+  {name:"Ege", img:"ege.jpg"},
+  {name:"Görkem", img:"gorkem.jpg"},
+  {name:"Kemal", img:"kemal.jpg"},
+  {name:"Milan", img:"milan.jpg"},
+  {name:"Miraç", img:"mirac.jpg"},
+  {name:"Oğuzhan", img:"oguzhan.jpg"},
+  {name:"Umut Arda", img:"umutarda.jpg"},
+  {name:"Yusif", img:"yusif.jpg"}
+];
 
-    function renderButtons() {
-      const container = document.getElementById("lineupButtons");
-      container.innerHTML = "";
+let ranking = [];
 
-      for (let i = 5; i <= 9; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
+function renderButtons() {
+  const container = document.getElementById("lineupButtons");
+  container.innerHTML = "";
 
-        if (i === maxRank) {
-          btn.classList.add("active");
-        }
+  for (let i = 5; i <= 9; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
 
-        btn.onclick = () => {
-          maxRank = i;
+    if (i === maxRank) btn.classList.add("active");
 
-          if (ranking.length > maxRank) {
-            ranking = ranking.slice(0, maxRank);
-          }
-
-          renderAll();
-        };
-
-        container.appendChild(btn);
-      }
-    }
-
-    function renderGrid() {
-      const grid = document.getElementById("grid");
-      grid.innerHTML = "";
-
-      trainees.forEach(t => {
-        const selected = ranking.find(x => x.name === t.name);
-
-        const div = document.createElement("div");
-        div.className = selected ? "card selected" : "card";
-
-        div.innerHTML = `
-          <img src="${t.img}" alt="${t.name}">
-          <div class="card-name">${t.name}</div>
-          <div class="card-status">${selected ? "Seçildi" : "Eklemek için tıkla"}</div>
-        `;
-
-        if (!selected) {
-          div.onclick = () => select(t);
-        }
-
-        grid.appendChild(div);
-      });
-    }
-
-    function select(t) {
-      if (ranking.length >= maxRank) return;
-      if (ranking.find(x => x.name === t.name)) return;
-
-      ranking.push(t);
+    btn.onclick = () => {
+      maxRank = i;
+      if (ranking.length > maxRank) ranking = ranking.slice(0, maxRank);
       renderAll();
+    };
+
+    container.appendChild(btn);
+  }
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  trainees.forEach(t => {
+    const selected = ranking.find(x => x.name === t.name);
+    const div = document.createElement("div");
+    div.className = selected ? "card selected" : "card";
+
+    div.innerHTML = `
+      <img src="${t.img}" alt="${t.name}">
+      <div class="card-name">${t.name}</div>
+      <div class="card-status">${selected ? "Seçildi" : "Eklemek için tıkla"}</div>
+    `;
+
+    if (!selected) div.onclick = () => select(t);
+
+    grid.appendChild(div);
+  });
+}
+
+function select(t) {
+  if (ranking.length >= maxRank) return;
+  if (ranking.find(x => x.name === t.name)) return;
+
+  ranking.push(t);
+  renderAll();
+}
+
+function updateTop() {
+  const list = document.getElementById("topList");
+  list.innerHTML = "";
+  document.getElementById("title").textContent = `Top ${maxRank}`;
+
+  for (let i = 0; i < maxRank; i++) {
+    const div = document.createElement("div");
+    div.className = "slot";
+
+    if (ranking[i]) {
+      div.innerHTML = `
+        <div class="slot-left">
+          <div class="slot-number">${i + 1}</div>
+          <img src="${ranking[i].img}">
+          <span class="slot-name">${ranking[i].name}</span>
+        </div>
+      `;
+    } else {
+      div.innerHTML = `
+        <div class="slot-left">
+          <div class="slot-number">${i + 1}</div>
+          <span class="slot-name empty">Boş</span>
+        </div>
+      `;
     }
 
-    function updateTop() {
-      const list = document.getElementById("topList");
-      list.innerHTML = "";
+    list.appendChild(div);
+  }
+}
 
-      document.getElementById("title").textContent = `Top ${maxRank}`;
+function resetRanking() {
+  ranking = [];
+  renderAll();
+}
 
-      for (let i = 0; i < maxRank; i++) {
-        const div = document.createElement("div");
-        div.className = "slot";
+function removeLast() {
+  ranking.pop();
+  renderAll();
+}
 
-        if (ranking[i]) {
-          div.innerHTML = `
-            <div class="slot-left">
-              <div class="slot-number">${i + 1}</div>
-              <img src="${ranking[i].img}" alt="${ranking[i].name}">
-              <span class="slot-name">${ranking[i].name}</span>
-            </div>
-          `;
-        } else {
-          div.innerHTML = `
-            <div class="slot-left">
-              <div class="slot-number">${i + 1}</div>
-              <span class="slot-name empty">Boş</span>
-            </div>
-          `;
-        }
+function renderAll() {
+  renderButtons();
+  renderGrid();
+  updateTop();
+}
 
-        list.appendChild(div);
-      }
-    }
-
-    function resetRanking() {
-      ranking = [];
-      renderAll();
-    }
-
-    function removeLast() {
-      ranking.pop();
-      renderAll();
-    }
-
-    function renderAll() {
-      renderButtons();
-      renderGrid();
-      updateTop();
-    }
-
-    renderAll();
-  </script>
+renderAll();
+</script>
 
 </body>
 </html>
